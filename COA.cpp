@@ -15,6 +15,7 @@ int timeToReadFromCache,timeToReadFromMemory;
 int noOfLines,noOfSet,fetchMemory;
 
 //Output Declearation 
+int TTDM,TTAM,TTSM;
 int timeForDM,timeForAM,timeForSM;
 int hitDM,hitAM,hitSM;
 int missDM,missAM,missSM;
@@ -39,7 +40,7 @@ int main (){
 
 	cout<<"\n\nEnter no. of Memory calls to be made: ";
 	cin>>fetchMemory;
-	cout<<"\n\nEnter Memory read Calls in Order by specifing Block number:";
+	cout<<"\n\nEnter Memory read Calls in Order by specifing Block number:\n";
 	for(int i = 0; i < fetchMemory; i++)
 	{	
 		cin>>fetchOrder[i];
@@ -47,9 +48,11 @@ int main (){
 	for(int i = 0; i < fetchMemory; i++)
 	{
 		int number = fetchOrder[i];
+		cout<<"\n\n\n\nAfter "<<number<<"\n";
 		DirectM(number);
 		// AssociativeM(number);
 		// SetM(number);
+		PrintTable();
 	}
 	
 	return 0;
@@ -91,7 +94,7 @@ void FillMainMemory(){
 	}
 	cout<<"\n\n\n\t\t\tMain Memory Visualization";
 	cout<<"\n\nBlock No.    Data\n";
-	for(i = 0; i < 99; i++)
+	for(i = 0; i < 100; i++)
 	{
 		if (mainM[i]!=0) {
 			cout<<"   "<<i<<"         "<<mainM[i];
@@ -103,16 +106,34 @@ void FillMainMemory(){
 // Print Table of Memory visualization 
 void PrintTable(){
     // Code
+	cout<<"\n\t\t\tTable\n";
+	cout<<"Line no.      Direct      Associative          Set\n";
+	for(int i = 0; i < noOfLines; i++)
+	{
+		cout<<"   "<<i<<"\t\t"<<directM[i]<<"\t\t"<<associativeM[i]<<"\t\t"<<setM[i]<<"\n";
+	}
 }
 
 // Calculation for Direct Mapping 
 void DirectM(int number){
     // Code
+	if ( directM[number%noOfLines] != 0) {
+		directM[number%noOfLines] = mainM[number];
+		cout<<"Time taken for the Operation in Direct Map = "<<timeToReadFromMemory+timeToReadFromCache;
+		TTDM = TTDM + timeToReadFromMemory + timeToReadFromCache;
+	}
+	else
+	{
+		directM[number%noOfLines] = mainM[number];
+		cout<<"Time taken for the Operation in Direct Map = "<<timeToReadFromCache;
+		TTDM = TTDM + timeToReadFromCache;
+	}
 }
 
 // Calculation for Associative Mapping 
 void AssociativeM(int number){
 	// Code
+
 }
 
 // Calculation for Set Associative Mapping
