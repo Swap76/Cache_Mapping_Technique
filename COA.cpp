@@ -57,7 +57,11 @@ int main (){
 		SetM(number);
 		PrintTable();
 	}
-	
+
+	cout<<"\n\n\t\t\tComparison \n\tDirect     Associative     Set Associative\n";
+	cout<<"Time    "<<TTDM<<"     "<<TTAM<<"    "<<TTSM<<"\n";
+	cout<<"Hit     "<<hitDM<<"     "<<hitAM<<"    "<<hitSM<<"\n";
+	cout<<"miss    "<<missDM<<"    "<<missAM<<"   "<<missSM<<"\n";
 	return 0;
 }
 
