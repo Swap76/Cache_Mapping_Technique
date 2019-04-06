@@ -11,12 +11,12 @@ void SetM(int Blockno);
 
 //Input Declearation 
 int directM[50],associativeM[50],setM[50],mainM[100],fetchOrder[50];
-int timeToReadFromCache,timeToReadFromMemory;
+double timeToReadFromCache,timeToReadFromMemory,timeToCompare;
 int noOfLines,noOfSet,fetchMemory;
 
 //Output Declearation 
-int TTDM,TTAM,TTSM;
-int timeForDM,timeForAM,timeForSM;
+double TTDM,TTAM,TTSM;
+double timeForDM,timeForAM,timeForSM;
 int hitDM,hitAM,hitSM;
 int missDM,missAM,missSM;
 
@@ -31,6 +31,8 @@ int main (){
 	cin>>timeToReadFromCache;
 	cout<<"\n\nEnter Time Required to Read data from Main Memory: ";
 	cin>>timeToReadFromMemory;
+	cout<<"\n\nEnter Time Required to Compare data in Cache: ";
+	cin>>timeToCompare;
 	cout<<"\n\nEnter no. of Sets in Set Associative Mapping: ";
 	cin>>noOfSet;
 
@@ -50,7 +52,7 @@ int main (){
 		int number = fetchOrder[i];
 		cout<<"\n\n\n\nAfter "<<number<<"\n";
 		DirectM(number);
-		// AssociativeM(number);
+		AssociativeM(number);
 		// SetM(number);
 		PrintTable();
 	}
@@ -117,23 +119,50 @@ void PrintTable(){
 // Calculation for Direct Mapping 
 void DirectM(int number){
     // Code
-	if ( directM[number%noOfLines] != 0) {
-		directM[number%noOfLines] = mainM[number];
-		cout<<"Time taken for the Operation in Direct Map = "<<timeToReadFromMemory+timeToReadFromCache;
-		TTDM = TTDM + timeToReadFromMemory + timeToReadFromCache;
+	if (directM[number%noOfLines] == mainM[number]) {
+		cout<<"Time taken for the Operation in Direct Mapping = "<<timeToReadFromCache;
+		TTDM = TTDM + timeToReadFromCache;
+		hitDM++;
 	}
 	else
 	{
 		directM[number%noOfLines] = mainM[number];
-		cout<<"Time taken for the Operation in Direct Map = "<<timeToReadFromCache;
-		TTDM = TTDM + timeToReadFromCache;
+		cout<<"Time taken for the Operation in Direct Mapping = "<<timeToReadFromMemory+timeToReadFromCache;
+		TTDM = TTDM + timeToReadFromMemory + timeToReadFromCache;
+		missDM++;
 	}
 }
 
 // Calculation for Associative Mapping 
 void AssociativeM(int number){
 	// Code
-
+	int i;
+	for(i = 0; i < noOfLines; i++)
+	{
+		if ( associativeM[i] == mainM[number]) {
+			cout<<"\nTime taken for the Operation in Associative Mapping = "<<(i+1)*timeToCompare + timeToReadFromCache;
+			TTAM = TTAM + (i+1)*timeToCompare + timeToReadFromCache;
+			hitAM++;
+			break;
+		}
+	}
+	
+	if ( i == noOfLines ){
+		int j;
+		for( j = 0; j < noOfLines; j++)
+		{
+			if(associativeM[j] == 0 ){
+				associativeM[j] = mainM[number];
+				break;
+			}
+		}
+		if (j == noOfLines){
+			associativeM[0] = mainM[number];
+		}
+		cout<<"\nTime taken for the Operation in Associative Mapping = "<<(i+1)*timeToCompare + timeToReadFromCache;
+		TTAM = TTAM + (i+j+1)*timeToCompare + timeToReadFromCache + timeToReadFromMemory;
+		missAM++;
+	}
 }
 
 // Calculation for Set Associative Mapping
