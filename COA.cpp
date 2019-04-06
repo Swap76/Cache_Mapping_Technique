@@ -5,14 +5,14 @@ using namespace std;
 void Initialize();
 void FillMainMemory();
 void PrintTable();
-void DirectM();
-void AssociativeM();
-void SetM();
+void DirectM(int Blockno);
+void AssociativeM(int Blockno);
+void SetM(int Blockno);
 
 //Input Declearation 
-int directM[50],associativeM[50],setM[50],mainM[100];
+int directM[50],associativeM[50],setM[50],mainM[100],fetchOrder[50];
 int timeToReadFromCache,timeToReadFromMemory;
-int noOfLines,noOfSet;
+int noOfLines,noOfSet,fetchMemory;
 
 //Output Declearation 
 int timeForDM,timeForAM,timeForSM;
@@ -23,16 +23,35 @@ int missDM,missAM,missSM;
 int main (){
 
 	// Take input for Creating Cache Memory
-	cout<<"\t\t\tWelcome to Cache Memory Mapping Simulator\n";
-	cout<<"\nEnter no. of lines in the Cache Memory: ";
+	cout<<"\n\n\n\n\n\n\n\n\t\t\tWelcome to Cache Memory Mapping Simulator\n";
+	cout<<"\n\nEnter no. of lines in the Cache Memory: ";
 	cin>>noOfLines;
-	cout<<"\nEnter no. of Sets in Set Associative Mapping: ";
+	cout<<"\n\nEnter Time Required to Read data from Cache: ";
+	cin>>timeToReadFromCache;
+	cout<<"\n\nEnter Time Required to Read data from Main Memory: ";
+	cin>>timeToReadFromMemory;
+	cout<<"\n\nEnter no. of Sets in Set Associative Mapping: ";
 	cin>>noOfSet;
 
 	Initialize();
 
 	FillMainMemory();
 
+	cout<<"\n\nEnter no. of Memory calls to be made: ";
+	cin>>fetchMemory;
+	cout<<"\n\nEnter Memory read Calls in Order by specifing Block number:";
+	for(int i = 0; i < fetchMemory; i++)
+	{	
+		cin>>fetchOrder[i];
+	}
+	for(int i = 0; i < fetchMemory; i++)
+	{
+		int number = fetchOrder[i];
+		DirectM(number);
+		// AssociativeM(number);
+		// SetM(number);
+	}
+	
 	return 0;
 }
 
@@ -59,8 +78,26 @@ void Initialize(){
 
 // Fills Values into main memory
 void FillMainMemory(){
-	cout<<"\t\t\tMemory is Restricted from 0 to 99 Blocks Only\n";
-	cout<<"Pass input in the given format Block No. "
+	int n,i;
+	cout<<"\n\n\n\n\n\n\n\n\t\t\tMemory is Restricted from 0 to 99 Blocks Only\n";
+	cout<<"\n\nPass input in the given format { Block No. Data(in Numbers only)}\n";
+	cout<<"\n\nNo. of Blocks to be Added: ";
+	cin>>n;
+	for( i = 0; i < n; i++)
+	{
+		int val,data;
+		cin>>val>>data;
+		mainM[val] = data;
+	}
+	cout<<"\n\n\n\t\t\tMain Memory Visualization";
+	cout<<"\n\nBlock No.    Data\n";
+	for(i = 0; i < 99; i++)
+	{
+		if (mainM[i]!=0) {
+			cout<<"   "<<i<<"         "<<mainM[i];
+			cout<<"\n";
+		}	
+	}	
 }
 
 // Print Table of Memory visualization 
@@ -69,16 +106,16 @@ void PrintTable(){
 }
 
 // Calculation for Direct Mapping 
-void DirectM(){
+void DirectM(int number){
     // Code
 }
 
 // Calculation for Associative Mapping 
-void AssociativeM(){
+void AssociativeM(int number){
 	// Code
 }
 
 // Calculation for Set Associative Mapping
-void SetM(){
+void SetM(int number){
 	// Code
 }
