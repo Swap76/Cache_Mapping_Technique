@@ -12,7 +12,7 @@ void SetM(int Blockno);
 //Input Declearation 
 int directM[50],associativeM[50],setM[50],mainM[100],fetchOrder[50];
 double timeToReadFromCache,timeToReadFromMemory,timeToCompare;
-int noOfLines,noOfSet,fetchMemory;
+int noOfLines,noOfSet,noOfLinesInSet,fetchMemory;
 
 //Output Declearation 
 double TTDM,TTAM,TTSM;
@@ -35,6 +35,7 @@ int main (){
 	cin>>timeToCompare;
 	cout<<"\n\nEnter no. of Sets in Set Associative Mapping: ";
 	cin>>noOfSet;
+	noOfLinesInSet = noOfLines / noOfSet;
 
 	Initialize();
 
@@ -53,7 +54,7 @@ int main (){
 		cout<<"\n\n\n\nAfter "<<number<<"\n";
 		DirectM(number);
 		AssociativeM(number);
-		// SetM(number);
+		SetM(number);
 		PrintTable();
 	}
 	
@@ -159,7 +160,7 @@ void AssociativeM(int number){
 		if (j == noOfLines){
 			associativeM[0] = mainM[number];
 		}
-		cout<<"\nTime taken for the Operation in Associative Mapping = "<<(i+1)*timeToCompare + timeToReadFromCache;
+		cout<<"\nTime taken for the Operation in Associative Mapping = "<<(i+1)*timeToCompare + timeToReadFromCache+ timeToReadFromMemory;
 		TTAM = TTAM + (i+j+1)*timeToCompare + timeToReadFromCache + timeToReadFromMemory;
 		missAM++;
 	}
@@ -168,4 +169,31 @@ void AssociativeM(int number){
 // Calculation for Set Associative Mapping
 void SetM(int number){
 	// Code
+	int set,i;
+	set = number % noOfSet;
+	for(i = set*noOfLinesInSet; i < (set + 1)*noOfLinesInSet; i++)
+	{
+		if( setM[i] == mainM[number]){
+			cout<<"\nTime taken for the Operation in Set Associative Mapping = "<< ((i-(set*noOfLinesInSet))*timeToCompare) + timeToReadFromCache;
+			TTSM = TTSM + ((i-(set*noOfLinesInSet))*timeToCompare) + timeToReadFromCache ;
+			hitSM++;
+			break;
+		}
+	}
+	if (i == (set + 1)*noOfLinesInSet){
+		int j;
+		for( j = set*noOfLinesInSet; j < (set + 1)*noOfLinesInSet; j++)
+		{
+			if(setM[j] == 0 ){
+				setM[j] = mainM[number];
+				break;
+			}
+		}
+		if (j == (set + 1)*noOfLinesInSet){
+			setM[set*noOfLinesInSet] = mainM[number];
+		}
+		cout<<"\nTime taken for the Operation in Set Associative Mapping = "<<((i-(set*noOfLinesInSet))*timeToCompare) + timeToReadFromCache + timeToReadFromMemory;
+		TTSM = TTSM + ((i + j -(set*noOfLinesInSet))*timeToCompare) + timeToReadFromCache + timeToReadFromMemory;
+		missSM++;
+	}
 }
