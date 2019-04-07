@@ -51,17 +51,18 @@ int main (){
 	for(int i = 0; i < fetchMemory; i++)
 	{
 		int number = fetchOrder[i];
-		cout<<"\n\n\n\nAfter "<<number<<"\n";
+		cout<<"\n\n\n\nAfter "<<number<<" --> "<<mainM[number]<<"\n";
 		DirectM(number);
 		AssociativeM(number);
 		SetM(number);
 		PrintTable();
 	}
 
-	cout<<"\n\n\t\t\tComparison \n\tDirect     Associative     Set Associative\n";
-	cout<<"Time    "<<TTDM<<"     "<<TTAM<<"    "<<TTSM<<"\n";
-	cout<<"Hit     "<<hitDM<<"     "<<hitAM<<"    "<<hitSM<<"\n";
-	cout<<"miss    "<<missDM<<"    "<<missAM<<"   "<<missSM<<"\n";
+	// Print final comparison Table
+	cout<<"\n\n\t\t\tComparison \n\n\tDirect     Associative     Set Associative\n";
+	cout<<"Time\t  "<<TTDM<<"\t\t"<<TTAM<<"\t\t"<<TTSM<<"\n";
+	cout<<"Hit\t  "<<hitDM<<"\t\t"<<hitAM<<"\t\t"<<hitSM<<"\n";
+	cout<<"miss\t  "<<missDM<<"\t\t"<<missAM<<"\t\t"<<missSM<<"\n";
 	return 0;
 }
 
@@ -113,7 +114,7 @@ void FillMainMemory(){
 // Print Table of Memory visualization 
 void PrintTable(){
     // Code
-	cout<<"\n\t\t\tTable\n";
+	cout<<"\n\n\t\t\tTable\n";
 	cout<<"Line no.      Direct      Associative          Set\n";
 	for(int i = 0; i < noOfLines; i++)
 	{
