@@ -165,8 +165,8 @@ void AssociativeM(int number){
 		if (j == noOfLines){
 			associativeM[0] = mainM[number];
 		}
-		cout<<"\nTime taken for the Operation in Associative Mapping = "<<(i+1)*timeToCompare + timeToReadFromCache+ timeToReadFromMemory;
-		TTAM = TTAM + (i+j+1)*timeToCompare + timeToReadFromCache + timeToReadFromMemory;
+		cout<<"\nTime taken for the Operation in Associative Mapping = "<<(i)*timeToCompare + timeToReadFromCache+ timeToReadFromMemory;
+		TTAM = TTAM + (i+j)*timeToCompare + timeToReadFromCache + timeToReadFromMemory;
 		missAM++;
 	}
 }
