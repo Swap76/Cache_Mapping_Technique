@@ -1,4 +1,4 @@
-# COA_miniproject
+# Cache_Mapping_Technique
 Simulator for Direct, Associative, Set Associative Mapping Technique in Cache Allocation
 
 # Inputs
